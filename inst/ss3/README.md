@@ -4,3 +4,5 @@ This folder contains compiled versions of Stock Synthesis Version 3.24O for OS X
 
 The current public version of SS3 hosted by NOAA is available at:
 <http://nft.nefsc.noaa.gov/SS3.html>
+
+ss3sim requires the SS3 binary files to be in your operating system's path. Also, on Unix, you may need to add executable permissions to the file. See Appendix A in the vignette `vignette("ss3sim-vignette")` for instructions.
