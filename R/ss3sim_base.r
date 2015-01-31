@@ -186,7 +186,6 @@ ss3sim_base <- function(iterations, scenarios, f_params,
   bias_nsim = 5, bias_already_run = FALSE, hess_always = FALSE,
   print_logfile = TRUE, sleep = 0, conv_crit = 0.2, seed = 21, ...)
 {
-
   # In case ss3sim_base is stopped before finishing:
   old_wd <- getwd()
   on.exit(setwd(old_wd))
@@ -274,7 +273,6 @@ deviations can lead to biased model results.")
         setwd(wd)
       }
 
-      # browser()
       # Change the data structure in the OM to produce the expected
       # values we want. This sets up the 'dummy' bins before we run
       # the OM one last time. Then we'll sample from the expected values
@@ -376,7 +374,8 @@ deviations can lead to biased model results.")
       ## other data.
       if(!is.null(wtatage_params)){
           wtatage_params <-
-              add_nulls(wtatage_params, c("fleets", "Nsamp", "years", "cv_wtatage"))
+              add_nulls(wtatage_params, c("fleets", "Nsamp", "years", "cv_wtatage", 
+                "sample_what"))
           ## A value of NULL for fleets signifies not to use this function,
           ## so exit early if this is the case.
           if(!is.null(wtatage_params$fleets)){
@@ -392,7 +391,8 @@ deviations can lead to biased model results.")
                                   fleets      = fleets,
                                   years       = years,
                                   write_file  = TRUE,
-                                  cv_wtatage  = cv_wtatage))
+                                  cv_wtatage  = cv_wtatage,
+                                  sample_what = sample_what))
           }
       }
 

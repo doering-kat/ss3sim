@@ -37,21 +37,24 @@
 #' @seealso \code{\link{sample_lcomp}, \link{sample_agecomp}},
 #'   \code{\link{fill_across}}
 #' @export
-# 
-# # #For Debugging
+
+# #For Debugging
 # setwd('/Users/peterkuriyama/School/Research/capam_growth/sample_wtatage_test/')
-# # source('fill_across.r')
+# source('fill_across.r')
 # # 
 # infile <- "om/wtatage.ss_new"
 # outfile <- "em/wtatage.ss"
-# datfile <- "em/ss3.dat"
+# datfile <- "om/data.ss_new"
 # ctlfile <- "om/control.ss_new"
 # years <- list(seq(2, 100, 1), seq(2, 100, 1))
 # fill_fnc <- fill_across
 # fleets <- list(1, 2)
-# cv_wtatage <- .5
+# cv_wtatage <- .1
 # write_file <- TRUE
-# 
+
+     
+# datfile <- r4ss::SS_readdat(file=datfile, verbose=FALSE)
+
 # test <- sample_wtatage(infile = infile, outfile = outfile, datfile = datfile, 
 #     ctlfile = ctlfile, years = years, fill_fnc = fill_across, 
 #     fleets = fleets, cv_wtatage = cv_wtatage)
@@ -59,13 +62,14 @@
 
 sample_wtatage <- function(infile, outfile, datfile, ctlfile,
                            years, fill_fnc = fill_across, write_file=TRUE, fleets,
-                           cv_wtatage = NULL, nsamp_wtatage = NULL){
+                           cv_wtatage = NULL, sample_what){
+    browser()
   ##fill_type: specify type of fill, fill zeroes with first row? annual interpolation?
         ## Age Interpolation?
     ## A value of NULL for fleets signifies to turn this data off in the
     ## EM. So quit early and in ss3sim_base do NOT turn wtatage on using
     ## the maturity function
-    print(nsamp_wtatage)
+    
     if(is.null(cv_wtatage)) stop('specify cv_wtatage in case file')
         
     cat('cv_wtatage is', cv_wtatage, '\n')
@@ -80,7 +84,7 @@ sample_wtatage <- function(infile, outfile, datfile, ctlfile,
     #unchanged from previous versions
 #     datfile <- r4ss::SS_readdat(file=datfile, verbose=FALSE)
     agecomp <- datfile$agecomp
-    
+    # agecomp$Nsamp <- 1000000
     cat('sample size is ', unique(agecomp$Nsamp), '\n')
     agebin_vector <- datfile$agebin_vector
     # agebin_vector <- c(0, agebin_vector)
@@ -184,6 +188,11 @@ sample_wtatage <- function(infile, outfile, datfile, ctlfile,
                 Wtlen2 <- ctl[ctl$Label=="Wtlen_2_Fem", "INIT"]
                 sds <- mla.means*CV.growth
 
+                if(yr == 2)
+                {
+                 lengths <- (wts / Wtlen1) ^ (1 / Wtlen2)
+                 unique(lengths.list[[2]])
+                }
                 #Sample: I used a for loop to keep things understandable for me. could use apply also
             
                 #create empty list to store lengths and weights
@@ -214,6 +223,7 @@ sample_wtatage <- function(infile, outfile, datfile, ctlfile,
         }
     }
 
+    # browser()
     #fill in missing values
     wtatage.complete <- lapply(wtatage.new.list,fill_fnc,minYear=datfile$styr,maxYear=datfile$endyr)
 
