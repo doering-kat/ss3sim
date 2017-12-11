@@ -329,24 +329,8 @@ check_data <- function(x) {
       "are represented in the SS3 data file. See the SS3 manual."))
   }
 
-  if (!identical(x$Nfleet, 1))
-    stop("Nfleet in the SS3 data file must be set to 1.")
-
-  if (!identical(x$Nsurveys, 2))
-    stop("Nsurveys in the SS3 data file must be set to 2.")
-
   if (!identical(x$N_areas, 1))
     stop("N_areas in the SS3 data file must be set to 1.")
-
-  if (!identical(x$fleetnames, c("Fishery", "Survey", "CPUE")))
-    stop("Fleet names in the SS3 data file must be Fishery%Survey%CPUE")
-
-  if (!identical(x$surveytiming, c(0.5, 0.5, 0.5)))
-    stop("_surveytiming_in_season must be set to 0.5 for all fleets.")
-
-  if (!identical(x$areas, c(1, 1, 1)))
-    stop(paste("_area_assignments_for_each_fishery_and_survey must be set to 1",
-      "for all fleets in the SS3 data file."))
 
   if (!identical(x$N_discard_fleets, 0))
     stop("_N_fleets_with_discard must set to 0 in the SS3 data file.")
